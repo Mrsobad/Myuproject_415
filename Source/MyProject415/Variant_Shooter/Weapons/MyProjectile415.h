@@ -10,6 +10,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UNiagaraSystem;
 
 UCLASS(Config = Game)
 class MYPROJECT415_API AMyProjectile415 : public AShooterProjectile
@@ -30,6 +31,9 @@ class MYPROJECT415_API AMyProjectile415 : public AShooterProjectile
 
 	UPROPERTY(EditAnywhere)
 	UMaterial* baseMat;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* colorP;
 
 	
 public:	
