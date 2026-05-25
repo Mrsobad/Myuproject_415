@@ -30,7 +30,7 @@ void ACubeDMIMod::BeginPlay()
 
 	if (baseMat)
 	{
-		dmiMat = UMaterialInstanceDynamic::Create(baseMat, this);
+		dmiMat = UMaterialInstanceDynamic::Create(baseMat, GetTransientPackage());
 	}
 
 	if (cubeMesh)
@@ -61,11 +61,16 @@ void ACubeDMIMod::onOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 
 		if (dmiMat)
 		{
-			dmiMat->SetVectorParameterValue("Color", ranColor);
+			dmiMat->SetVectorParameterValue("Color", randColor);
 			dmiMat->SetScalarParameterValue("Darkness", ranNumX);
-			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, OtherComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
 
-			particleComp->SetNiagaraVariableLinearColor(FString("RandColor"), randColor);
+			if (colorP)
+			{
+				UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, OtherComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+
+				particleComp->SetNiagaraVariableLinearColor(FString("RandColor"), randColor);
+			}
+			
 		}
 	}
 }
