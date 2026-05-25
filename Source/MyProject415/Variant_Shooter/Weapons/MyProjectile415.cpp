@@ -10,7 +10,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
-class UNiagaraSystem;
+
 
 
 // Sets default values
@@ -43,8 +43,20 @@ AMyProjectile415::AMyProjectile415()
 		ProjectileMovement->bShouldBounce = true;
 
 		// Die after 3 seconds by default
-		InitialLifeSpan = 3.0f;
+		InitialLifeSpan = 1.0f;
 }
+
+void AMyProjectile415::BeginPlay()
+{
+	Super::BeginPlay();
+
+	randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
+	dmiMat = UMaterialInstanceDynamic::Create(projMat, GetTransientPackage());
+	ballMesh->SetMaterial(0, dmiMat);
+
+	dmiMat->SetVectorParameterValue("Color", randColor);
+}
+
 
 void AMyProjectile415:: OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
@@ -53,6 +65,7 @@ void AMyProjectile415:: OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 		Destroy();
+		return;
 	}
 
 	if (OtherActor != nullptr)
@@ -68,13 +81,14 @@ void AMyProjectile415:: OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 		
 		auto decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), baseMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 0.f);
-		auto MatInstance = decal->CreateDynamicMaterialInstance();
+		
+	
+		
+			auto MatInstance = decal->CreateDynamicMaterialInstance();
 
-		MatInstance->SetVectorParameterValue("Color", randColor);
-		MatInstance->SetScalarParameterValue("Frame", frameNum);
+			MatInstance->SetVectorParameterValue("Color", randColor);
+			MatInstance->SetScalarParameterValue("Frame", frameNum);
+		
+		
 	}
-}
-void AMyProjectile415::BeginPlay()
-{
-	Super::BeginPlay();
 }

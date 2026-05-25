@@ -32,6 +32,15 @@ class MYPROJECT415_API AMyProjectile415 : public AShooterProjectile
 	UPROPERTY(EditAnywhere)
 	UMaterial* baseMat;
 
+	UPROPERTY()
+	FLinearColor randColor;
+
+	UPROPERTY()
+	UMaterialInterface* projMat;
+
+	UPROPERTY()
+	UMaterialInstanceDynamic* dmiMat;
+
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* colorP;
 
