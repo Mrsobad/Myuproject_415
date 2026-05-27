@@ -19,7 +19,8 @@ public class MyProject415 : ModuleRules
 			"GameplayStateTreeModule",
 			"UMG",
 			"Slate",
-			"Niagara"
+			"Niagara",
+			"proceduralmeshcomponent"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
