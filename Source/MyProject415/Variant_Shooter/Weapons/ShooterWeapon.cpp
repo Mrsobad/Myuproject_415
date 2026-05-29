@@ -40,12 +40,16 @@ void AShooterWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// subscribe to the owner's destroyed delegate
-	GetOwner()->OnDestroyed.AddDynamic(this, &AShooterWeapon::OnOwnerDestroyed);
+	if (GetOwner())
+	{
+		// subscribe to the owner's destroyed delegate
+		GetOwner()->OnDestroyed.AddDynamic(this, &AShooterWeapon::OnOwnerDestroyed);
 
-	// cast the weapon owner
-	WeaponOwner = Cast<IShooterWeaponHolder>(GetOwner());
-	PawnOwner = Cast<APawn>(GetOwner());
+		// cast the weapon owner
+		WeaponOwner = Cast<IShooterWeaponHolder>(GetOwner());
+		PawnOwner = Cast<APawn>(GetOwner());
+		WeaponOwner->AttachWeaponMeshes(this);
+	}
 
 	// fill the first ammo clip
 	CurrentBullets = MagazineSize;
